@@ -1,0 +1,22 @@
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+local animation = Instance.new("Animation")
+animation.AnimationId = "rbxassetid://17649553233"
+
+local animationTrack = humanoid:LoadAnimation(animation)
+
+local lastPosition = character.PrimaryPart.Position
+
+local function onUpdate()
+    local currentPosition = character.PrimaryPart.Position
+    local isMoving = (currentPosition - lastPosition).Magnitude > 0.1
+    local isRunning = humanoid.MoveDirection.Magnitude > 0  -- Check if the character is moving in a direction
+
+    if isRunning then
+        if animationTrack.IsPlaying then
+            animationTrack:Stop()
+        end
+    elseif isMoving then
+        if not animationTrack.IsPlaying then
+            
